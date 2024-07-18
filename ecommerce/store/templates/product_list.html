@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Libros Algaib</title>
+    <link rel="shortcut icon" href="{% static 'img/logolibrosalgaib.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
+        <div class="container-fluid">
+            <a class="navbar-brand custom-font-logo" href="{% url 'index' %}"><img src="{% static 'img/logolibrosalgaib.png' %}" alt="Libros Algaib"> Libros Algaib</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'img/usuario.png' %}" alt="Usuario" style="width: 30px; height: 30px;">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
+                            <li><a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex ms-2" method="GET" action="{% url 'product_list' %}">
+                    <input class="form-control rounded-0" type="search" name="q" placeholder="Busca por título o autor" aria-label="Search">
+                    <button class="btn btn-outline-light buttn-buscar rounded-0" type="submit"><img src="{% static 'img/buscar.png' %}" alt="icono buscar" height="30"></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5 pt-5 d-none d-sm-block">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    {% if product.imagen %}
+                    <img src="{{ product.imagen.url }}" class="card-img-top" alt="{{ product.nombre }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ product.nombre|linebreaks }}</h5>
+                        <p class="card-text text-center">{{ product.autor|linebreaks }}</p>
+                        <p class="card-text text-center"><strong>Editorial:</strong> {{ product.editorial }}</p>
+                        <p class="card-text text-center"><strong>Precio:</strong> ${{ product.precio }}</p>
+                        <a href="{% url 'libro_detalle' product.id %}" class="btn btn-primary btn-lg px-3">Ver detalle</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No se encontraron productos.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mt-5 pt-5 d-block d-sm-none">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-6 mb-4">
+                <div class="card h-100">
+                    {% if product.imagen %}
+                    <img src="{{ product.imagen.url }}" class="card-img-top" alt="{{ product.nombre }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ product.nombre|linebreaks }}</h5>
+                        <p class="card-text text-center">{{ product.autor|linebreaks }}</p>
+                        <p class="card-text text-center"><strong>Editorial:</strong> {{ product.editorial }}</p>
+                        <p class="card-text text-center"><strong>Precio:</strong> ${{ product.precio }}</p>
+                        <a href="{% url 'libro_detalle' product.id %}" class="btn btn-primary btn-lg px-3">Ver detalle</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No se encontraron productos.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+          <div class="col mb-3">
+            <p class="text-body-secondary">© 2024</p>
+          </div>
+    
+          <div class="col mb-3">
+            <ul class="nav flex-column">
+              <li><img src="{% static 'img/webpay1.png' %}" alt="webpay" style="height: 32px; width: 100px;"></li>
+            </ul>
+          </div>
+    
+          <div class="col mb-3">
+            <ul class="nav flex-column">
+              <li><img src="{% static 'img/logolibrosalgaib.png' %}" alt="logolibrosalgaib" style="height: 48px; width: 48px;"></li>
+            </ul>
+          </div>
+    
+          <div class="col mb-3">
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a href="#" class="nav-link p-0 text-body-secondary">
+                        <img src="{% static 'img/instagram.png' %}" alt="Instagram" style="height: 32px; width: 32px;">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col mb-3">
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"> contacto@librosalgaib.cl </li>
+          </ul>
+        </div>
+        </footer>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libros Algaib</title>
+    <link rel="shortcut icon" href="{% static 'img/logolibrosalgaib.png' %}">
+    {% bootstrap_css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
+    <div class="container-fluid">
+        <a class="navbar-brand custom-font-logo" href="{% url 'index' %}"><img src="{% static 'img/logolibrosalgaib.png' %}" alt="Libros Algaib"> Libros Algaib</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">Catálogo</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'img/usuario.png' %}" alt="Usuario" style="width: 30px; height: 30px;">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
+                        <li><a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex ms-2" method="GET" action="{% url 'product_list' %}">
+                <input class="form-control rounded-0" type="search" name="q" placeholder="Busca por título o autor" aria-label="Search">
+                <button class="btn btn-outline-light buttn-buscar rounded-0" type="submit"><img src="{% static 'img/buscar.png' %}" alt="icono buscar" height="30"></button>
+            </form>
+        </div>
+    </div>
+</nav>
+  <div class="px-4 pt-5 my-5 text-center border-bottom">
+    <img src="{% static 'img/logolibrosalgaib.png' %}" alt="moveit brand icon" height="100"><h1 class="display-4 fw-bold text-body-emphasis custom-font">Libros Algaib</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">La librería amigable con tu bolsillo y el medio ambiente. <br><br></p>
+    </div>
+    <div class="overflow-hidden" style="max-height: 40vh;">
+      <div class="container px-5">
+        <img src="{% static 'img/familialeyendo1.jpg' %}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Familia leyendo" width="800" height="1000" loading="lazy">
+      </div>
+    </div>
+  </div>
+<br>
+  <div class="container mt-4 pt-4 container-novedades">
+    <h1>Novedades</h1>
+    <div id="novedadesCarousel" class="carousel slide d-md-none" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for product in products %}
+            {% if forloop.first %}<div class="carousel-item active"><div class="row g-2">{% elif forloop.counter0|divisibleby:2 %}</div></div><div class="carousel-item"><div class="row g-2">{% endif %}
+                <div class="col-6 col-sm-3">
+                    <div class="card h-100">
+                        <div class="novedades-img-overlay-container">
+                            {% if product.imagen %}
+                            <img src="{{ product.imagen.url }}" class="card-img-top novedades-overlay-img" alt="{{ product.nombre }}">
+                            {% endif %}
+                            <div class="novedades-img-overlay"></div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-truncate" style="max-width: 100%;">{{ product.nombre|linebreaks }}</h5>
+                            <p class="card-text text-center text-truncate" style="max-width: 100%;">{{ product.autor }}</p>
+                            <p class="card-text text-center"><strong>Editorial:</strong> {{ product.editorial }}</p>
+                            <p class="card-text text-center"><strong>Precio:</strong> ${{ product.precio }}</p>
+                            <a href="{% url 'libro_detalle' product.id %}" class="btn btn-primary btn-lg px-3">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div></div>
+        </div>
+        <button class="carousel-control-prev novedades-carousel-control-prev" type="button" data-bs-target="#novedadesCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon novedades-carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next novedades-carousel-control-next" type="button" data-bs-target="#novedadesCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon novedades-carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<div class="container mt-4 pt-4 d-none d-md-block">
+  <div id="librosCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+          {% for product in products %}
+          {% if forloop.first %}<div class="carousel-item active"><div class="row">{% elif forloop.counter0|divisibleby:4 %}</div></div><div class="carousel-item"><div class="row">{% endif %}
+              <div class="col-md-3 mb-4">
+                  <div class="card h-100">
+                      {% if product.imagen %}
+                      <img src="{{ product.imagen.url }}" class="card-img-top" alt="{{ product.nombre }}">
+                      {% endif %}
+                      <div class="card-body">
+                          <h5 class="card-title text-center text-truncate" style="max-width: 100%;">{{ product.nombre|linebreaks }}</h5>
+                          <p class="card-text text-center text-truncate" style="max-width: 100%;">{{ product.autor|linebreaks }}</p>
+                          <p class="card-text text-center"><strong>Editorial:</strong> {{ product.editorial }}</p>
+                          <p class="card-text text-center"><strong>Precio:</strong> ${{ product.precio }}</p>
+                          <a href="{% url 'libro_detalle' product.id %}" class="btn btn-primary btn-lg px-3">Ver detalle</a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+          </div></div>
+      </div>
+      <button class="carousel-control-prev novedades-carousel-control-prev" type="button" data-bs-target="#librosCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon novedades-carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next novedades-carousel-control-next" type="button" data-bs-target="#librosCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon novedades-carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+<br><br><br>
+<div class="container">
+  <div id="carouselExampleIndicators" class="carousel slide">
+      <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+          <div class="carousel-item active">
+              <img src="{% static 'img/libros1.jpg' %}" class="d-block w-100 overlay" alt="librosusados">
+              <div class="carousel-caption">
+                  <h3>Apoyando a la lectura y su acceso</h3>
+              </div>
+          </div>
+          <div class="carousel-item">
+              <img src="{% static 'img/libros4.jpg' %}" class="d-block w-100 overlay" alt="librosusados">
+              <div class="carousel-caption">
+                  <h3>Un nuevo hogar para cada libro</h3>
+              </div>
+          </div>
+          <div class="carousel-item">
+              <img src="{% static 'img/libros3.jpg' %}" class="d-block w-100 overlay" alt="librosusados">
+              <div class="carousel-caption">
+                  <h3>Descubre tu próxima lectura</h3>
+              </div>
+          </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+</div>
+<br>
+  <div class="container px-4 py-5" id="featured-3">
+    <h2 class="pb-2 border-bottom">Lee con Libros Algaib</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center mb-3" style="background-color: transparent;">
+            <img src="{% static 'img/economico.png' %}" alt="briefcase" class="img-fluid" style="height: 70px; width: 70px;">
+        </div>
+        <h3 class="fs-2">Amigables con tu bolsillo</h3>
+        <p>Compra libros usados al mejor precio, nuestro objetivo es que la lectura sea más accesible para todos, ofreciendo libros de grandes editoriales a precios amigables con tu bolsillo.</p>
+    </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center mb-3" style="background-color: transparent;">
+          <img src="{% static 'img/sustentable.png' %}" alt="briefcase" class="img-fluid" style="height: 70px; width: 70px;">
+      </div>
+        <h3 class="fs-2">Amigables con el medio ambiente</h3>
+        <p>Al comprar un libro en Libros Algaib, estás contribuyendo al reciclaje y al medio ambiente, dándole una segunda vida a estos libros usados. <br> !Explora nuestro catálogo y encuentra el libro perfecto para tí!</p>
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center mb-3" style="background-color: transparent;">
+          <img src="{% static 'img/libros.png' %}" alt="briefcase" class="img-fluid" style="height: 70px; width: 70px;">
+        </div>
+        <h3 class="fs-2">Amplia selección</h3>
+        <p>Encuentre desde los bestsellers más recientes hasta los más grandes clásicos universales. Abarcamos todo tipo de lectores.</p>
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center mb-3" style="background-color: transparent;">
+            <img src="{% static 'img/calidad.png' %}" alt="calidad" class="img-fluid" style="height: 70px; width: 70px;">
+        </div>
+        <h3 class="fs-2">Garantía de Calidad</h3>
+        <p>Todos nuestros libros usados pasan por un riguroso control de calidad para asegurarnos de que recibas un producto en excelente estado.</p>
+    </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center mb-3" style="background-color: transparent;">
+          <img src="{% static 'img/envio.png' %}" alt="briefcase" class="img-fluid" style="height: 70px; width: 70px;">
+        </div>
+        <h3 class="fs-2">Envíos a todo Chile</h3>
+        <p>¡Llegamos a todos los rincones del país!</p>
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center mb-3" style="background-color: transparent;">
+          <img src="{% static 'img/atencionalcliente.png' %}" alt="briefcase" class="img-fluid" style="height: 70px; width: 70px;">
+        </div>
+        <h3 class="fs-2">Atención personalizada</h3>
+        <p>Si no encuentra el libro que está buscando, no dude en escribirnos en la sección de contacto o en nuestro instagram, podemos buscarlo por usted.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <footer class="container py-5 my-5 border-top">
+      <div class="col mb-3">
+        <p class="text-body-secondary">© 2024</p>
+      </div>
+
+      <div class="col mb-3">
+        <ul class="nav flex-column">
+          <li><img src="{% static 'img/webpay1.png' %}" alt="webpay" style="height: 32px; width: 100px;"></li>
+        </ul>
+      </div>
+
+      <div class="col mb-3">
+        <ul class="nav flex-column">
+          <li><img src="{% static 'img/logolibrosalgaib.png' %}" alt="logolibrosalgaib" style="height: 48px; width: 48px;"></li>
+        </ul>
+      </div>
+
+      <div class="col mb-3">
+        <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-body-secondary">
+                    <img src="{% static 'img/instagram.png' %}" alt="Instagram" style="height: 32px; width: 32px;">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col mb-3">
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2"> contacto@librosalgaib.cl </li>
+      </ul>
+    </div>
+    </footer>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>

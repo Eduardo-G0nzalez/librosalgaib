@@ -1,0 +1,130 @@
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item .overlay {
+    filter: brightness(50%);
+    transition: filter 0.5s;
+}
+
+.carousel-item:hover .overlay {
+    filter: brightness(30%);
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.carousel-caption h5, .carousel-caption p {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.container-novedades {
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 2rem;
+}
+
+.container-novedades .row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.container-novedades .card {
+    flex: 0 0 auto;
+    margin-right: 1rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.row.flex-row.flex-nowrap {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.row.g-2 {
+    gap: 0.5rem !important;
+}
+
+.novedades-img-overlay-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.novedades-overlay-img {
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.novedades-img-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent 50%, rgba(0, 0, 0, 0.5));
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.novedades-carousel-control-prev, .novedades-carousel-control-next {
+    width: 5%;
+}
+
+.novedades-carousel-control-prev-icon, .novedades-carousel-control-next-icon {
+    background-color: black;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    footer .footer-content {
+        flex-direction: row;
+    }
+}
